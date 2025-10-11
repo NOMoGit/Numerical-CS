@@ -1,0 +1,10 @@
+# ไม่ต้องสนใจไฟล์ข้อมูลของ MySQL ทั้งหมด
+mysql_data/
+
+# เป็น Best Practice ที่ควรทำ: ไม่ต้องสนใจโฟลเดอร์ node_modules
+back_end/node_modules/
+front_end/node_modules/
+node_modules/
+# ไฟล์อื่นๆ ที่ควรมองข้ามไปด้วย
+.env
+*.log

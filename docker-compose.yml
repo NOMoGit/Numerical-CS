@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8
+    container_name: numer_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: kanomnumer
+      MYSQL_DATABASE: numer
+      MYSQL_USER: Kanom
+      MYSQL_PASSWORD: NOMoJURO
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./mysql_init:/docker-entrypoint-initdb.d  # (ออปชัน) seed .sql ครั้งแรก
+
+  phpmyadmin:  # (ออปชัน) UI จัดการ DB
+    image: phpmyadmin:latest
+    restart: always
+    depends_on: [mysql]
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"

@@ -133,7 +133,7 @@ class Newton extends React.Component{
   render(){
     const {equation , x0 , tolerance ,result , equationDB } = this.state;
     return(
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4">
+      <div className="min-h-screen bg-gray-50 py-20 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -155,7 +155,7 @@ class Newton extends React.Component{
                     <p className="text-gray-400 text-center py-8">ไม่มีสมการในระบบ</p>
                   ) : (
                     equationDB.map(eq => (
-                      <div key={eq.ID} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
+                      <div key={eq.ID} className="bg-gray-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                           <code className="text-sm font-mono text-gray-800 font-semibold">{eq.Equeation}</code>
                           <div className="flex gap-1">
@@ -195,7 +195,7 @@ class Newton extends React.Component{
                   <select 
                     value={equation}
                     onChange={(e) => this.setState({equation:e.target.value})}
-                    className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                    className="w-full border-2 border-gray-200 rounded-xl p-3 transition-all outline-none"
                   >
                     <option value="">-- เลือกสมการ --</option>
                     {equationDB.map((eq) =>(
@@ -217,7 +217,7 @@ class Newton extends React.Component{
                     value={equation}
                     placeholder="เช่น x*x - 4 หรือ x^3 - 2*x - 5"
                     onChange={(e) => this.setState({equation:e.target.value})}
-                    className="w-full border-2 border-gray-200 rounded-xl p-3 font-mono focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                    className="w-full border-2 border-gray-200 rounded-xl p-3 font-mono transition-all outline-none"
                   />
                 </div>
 
@@ -231,7 +231,7 @@ class Newton extends React.Component{
                       type="number"
                       value={x0}
                       onChange={(e) => this.setState({ x0: e.target.value })}
-                      className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                      className="w-full border-2 border-gray-200 rounded-xl p-3 transition-all outline-none"
                     />
                   </div>
 
@@ -243,7 +243,7 @@ class Newton extends React.Component{
                       type="number"
                       value={tolerance}
                       onChange={(e) => this.setState({tolerance:e.target.value})}
-                      className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                      className="w-full border-2 border-gray-200 rounded-xl p-3 transition-all outline-none"
                       step="0.000001"
                     />
                   </div>
@@ -252,7 +252,7 @@ class Newton extends React.Component{
                 {/* Calculate Button */}
                 <button
                   onClick={this.calculate}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-600 text-white font-bold py-4 rounded-xl shadow-lg  transform  transition-all"
                 >
                   <span className="text-2xl">Calculate Root</span>
                 </button>

@@ -87,7 +87,7 @@ class Matrixinvers extends React.Component{
   render(){
   const { n, matrixA, matrixB, result } = this.state;
     return(
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-gray-10 py-12 px-4">
+      <div className="min-h-screen bg-gray-to-br from-blue-50 via-indigo-50 to-gray-10 py-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -111,7 +111,7 @@ class Matrixinvers extends React.Component{
             </div>
             <button
               onClick={this.calculate}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
             >
               Calculate
             </button>
@@ -133,7 +133,7 @@ class Matrixinvers extends React.Component{
                           key={j}
                           type="text"
                           placeholder={`a${i + 1}${j + 1}`}
-                          className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 p-4 w-16 h-16 text-center rounded-lg font-medium transition-all"
+                          className="bg-gray-to-br from-blue-50 to-indigo-50 border-2 border-gray-200 p-4 w-16 h-16 text-center rounded-lg font-medium transition-all"
                           value={value}
                           onChange={(e) => this.changematrixA(i, j, e.target.value)}
                         />
@@ -145,10 +145,10 @@ class Matrixinvers extends React.Component{
 
               
               <div className="bg-white p-6 rounded-2xl shadow-lg">
-                <h2 className="text-2xl font-bold text-center mb-4 text-purple-700">{"{X}"}</h2>
+                <h2 className="text-2xl font-bold text-center mb-4 text-gray-700">{"{X}"}</h2>
                 <div className="flex flex-col gap-2">
                   {Array.from({ length: n }, (_, i) => (
-                    <div key={i} className="bg-gradient-to-br from-purple-100 to-pink-100 border-2 border-purple-200 p-4 w-16 h-16 text-center rounded-lg font-semibold text-purple-700 flex items-center justify-center">
+                    <div key={i} className="bg-gray-to-br from-purple-100 to-pink-100 border-2 border-gray-200 p-4 w-16 h-16 text-center rounded-lg font-semibold text-gray-700 flex items-center justify-center">
                       x{i + 1}
                     </div>
                   ))}
@@ -167,7 +167,7 @@ class Matrixinvers extends React.Component{
                       key={i}
                       type="text"
                       placeholder={`b${i + 1}`}
-                      className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 p-4 w-16 h-16 text-center rounded-lg font-medium transition-all"
+                      className="bg-gray-to-br from-blue-50 to-purple-50 border-2 border-gray-200  p-4 w-16 h-16 text-center rounded-lg font-medium transition-all"
                       value={value}
                       onChange={(e) => this.changematrixB(i, e.target.value)}
                     />

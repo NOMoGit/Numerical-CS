@@ -20,6 +20,9 @@ import Trapezoidal from "./integrat_different/trapezoidal";
 import Simpson from "./integrat_different/simpson";
 import Comtrapezoidal from "./integrat_different/comtrapezoidal";
 import Comsimpson from "./integrat_different/comsimpson";
+import Different from "./integrat_different/different";
+import Multipleregres from "./least_sqr/multipleregres";
+import Linearregres from "./least_sqr/linearregres";
 
 function App() {
   return (
@@ -48,6 +51,9 @@ function App() {
         <Route path="/simpson" element={<Simpson/>}/>
         <Route path="/comtrapezoidal" element={<Comtrapezoidal/>}/>
         <Route path="/comsimpson" element={<Comsimpson/>}/>
+        <Route path="/different" element={<Different/>}/>
+        <Route path="/multipleregres" element={<Multipleregres/>}/>
+        <Route path="/linearregres" element={<Linearregres/>}/>
       </Routes>
       
     </Router>

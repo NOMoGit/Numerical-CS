@@ -162,14 +162,22 @@ function Navbar() {
                     md:group-hover:block 
                     bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
                     <li>
-                        <a href="#"className="block px-4 py-2 hover:bg-gray-200">
+                        {/* <a href=""className="block px-4 py-2 hover:bg-gray-200">
                         Linear
-                        </a>
+                        </a> */}
+                        <Link to="/Linearregres"className="block px-4 py-2 hover:bg-gray-200">
+                        Simple Linear
+                        </Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <a href="#"className="block px-4 py-2 hover:bg-gray-200">
-                        Multiple Linear
+                        Multiple Linear linearregres
                         </a>
+                    </li> */}
+                    <li>
+                        <Link to="/Multipleregres"className="block px-4 py-2 hover:bg-gray-200">
+                        Multiple Linear
+                        </Link>
                     </li>
                 </ul>
             </li>
@@ -221,9 +229,12 @@ function Navbar() {
                     bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
                     
                     <li>
-                        <a href="#"className="block px-4 py-2 hover:bg-gray-200">
+                        {/* <a href="#"className="block px-4 py-2 hover:bg-gray-200">
                         Differentiation
-                        </a>
+                        </a> */}
+                        <Link to="/Different"className="block px-4 py-2 hover:bg-gray-200">
+                        Differentiation
+                        </Link>
                     </li>
                 </ul>
             </li>

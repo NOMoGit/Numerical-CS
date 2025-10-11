@@ -147,7 +147,7 @@ class Simpson extends React.Component {
                                 Simpson's Rule
                             </h1>
                         </div>
-                            <div className="w-full max-w-4xl py-4">
+                            <div className="w-full max-w-4xl py-4 ">
                                <div className="mt-5 p-4 pt-10 bg-white rounded-2xl shadow-inner text-center ">
                                    <MathJax className="text-3xl" dynamic>{latex}</MathJax>
                                </div>

@@ -94,13 +94,14 @@ class Eliminate extends React.Component{
               <label className="text-lg font-medium text-gray-700">Matrix Size (NxN):</label>
               <input
                 type="number"
-                className="bg-gray-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 focus:border-blue-400 focus:outline-none p-3 w-24 text-center rounded-xl font-semibold text-lg transition-all"
+                className="bg-gray-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 p-3 w-24 text-center rounded-xl font-semibold text-lg transition-all"
                 min={1}
                 max={10}
                 value={n}
                 onChange={(e) => this.changesize(e.target.value)}
               />
             </div>
+            
             <button
               onClick={this.calculate}
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
@@ -108,10 +109,7 @@ class Eliminate extends React.Component{
               Calculate
             </button>
           </div>
-
-          {/* Matrix Input Section */}
           <div className=" flex flex-col lg:flex-row gap-6 items-center justify-center mb-8">
-            {/* Matrix A */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-10 mb-8  p-6  max-w-2xl mx-auto"> 
 
 
@@ -134,8 +132,6 @@ class Eliminate extends React.Component{
                   ))}
                 </div>
               </div>
-
-              {/* Matrix X */}
               <div className="bg-white p-6 rounded-2xl shadow-lg">
                 <h2 className="text-2xl font-bold text-center mb-4 text-gray-700">{"{X}"}</h2>
                 <div className="flex flex-col gap-2">
@@ -146,11 +142,7 @@ class Eliminate extends React.Component{
                   ))}
                 </div>
               </div>
-
-              {/* Equal Sign */}
               <div className="text-4xl font-bold text-gray-400">=</div>
-
-              {/* Matrix B */}
               <div className="bg-white p-6 rounded-2xl shadow-lg">
                 <h2 className="text-2xl font-bold text-center mb-4 text-indigo-700">{"{B}"}</h2>
                 <div className="flex flex-col gap-2">
@@ -166,11 +158,7 @@ class Eliminate extends React.Component{
                   ))}
                 </div>
               </div>
-
             </div>
-            
-
-
           </div>
 
           {/* Results Section */}

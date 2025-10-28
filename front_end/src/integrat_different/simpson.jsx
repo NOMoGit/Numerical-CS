@@ -140,15 +140,15 @@ class Simpson extends React.Component {
 
         return (
             <MathJaxContext>
-                <div className="min-h-screen bg-gray-50 py-20 px-4">
+                <div className="min-h-screen bg-gray-50 py-12 px-4">
                     <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-20">
+                        <div className="text-center mb-12">
                             <h1 className="text-5xl font-bold text-blue-800 mb-3">
                                 Simpson's Rule
                             </h1>
                         </div>
-                            <div className="w-full max-w-4xl py-4 ">
-                               <div className="mt-5 p-4 pt-10 bg-white rounded-2xl shadow-inner text-center ">
+                            <div >
+                               <div className="mb-5 p-4 pt-10 bg-white rounded-2xl shadow-inner text-center ">
                                    <MathJax className="text-3xl" dynamic>{latex}</MathJax>
                                </div>
                             </div>

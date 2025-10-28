@@ -1,30 +1,34 @@
 import React from 'react';
+import axios from 'axios';
 
 class Multipleregres extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       n: 7, 
-      m: 3, 
-      
-      xfind: ['', ''], 
-      
-      x: [
-        [1, 0 , 1], 
-        [0, 1 , 3], 
-        [2, 4 , 1], 
-        [3, 2 , 2],
-        [4, 1 , 5],
-        [2, 3 , 3],
-        [1, 6 , 4]
-      ], 
-      
-      fx: [1, -5, -6, 0 , -1 , -7 , -20], 
+      m: 3,
+      xfind: [],
+      x: [],
+      fx: [],
       result: null,
-      resultarrx: null 
+      resultarrx: null,
+      equationDB: []
     };
   }
+  componentDidMount() {
+    const { n, m } = this.state;
+    
+    const initialX = Array.from({ length: n }, () => Array(m).fill(''));
+    const initialFx = Array(n).fill('');
+    const initialXfind = Array(m).fill('');
 
+ 
+   this.setState({
+     x: initialX,
+     fx: initialFx,
+     xfind: initialXfind
+   });
+  }
   Gausselimination = (matcal, resultmat) => {
     const size = this.state.m + 1;
     for (let i = 0; i < size; i++) {
@@ -83,13 +87,10 @@ class Multipleregres extends React.Component {
           X_design[i][j] = x[i][j - 1];
         }
       }
-      
-
       let sumx = Array(A).fill(0);
       let sumy = 0;
       let sumxx = Array.from(Array(A), () => Array(A).fill(0));
       let sumxy = Array(A).fill(0);
-      
       for (let i = 0; i < N; i++) {
         sumy += Y[i];
         for (let j = 0; j < A; j++) {
@@ -100,7 +101,6 @@ class Multipleregres extends React.Component {
           }
         }
       }
-      
       let arrcal = Array.from(Array(A), () => Array(A + 1).fill(0));
       for (let i = 0; i < A; i++) {
         for (let j = 0; j < A; j++) {
@@ -108,7 +108,6 @@ class Multipleregres extends React.Component {
         }
         arrcal[i][A] = sumxy[i];
       }
-      
       let arrcal2 = arrcal.map(row => [...row]);
       const resultmat = Array(A);
       this.Gausselimination(arrcal2, resultmat);
@@ -123,9 +122,8 @@ class Multipleregres extends React.Component {
       alert("เกิดข้อผิดพลาดในการคำนวณ: " + error.message);
     }
   }
-
-
   handleNChange = (newN) => {
+    const {n} = this.state;
     this.setState(prevState => {
       const { n, m, x, fx } = prevState;
       const validN = Math.max(2, newN);
@@ -214,7 +212,7 @@ class Multipleregres extends React.Component {
                 <input
                   type="number"
                   value={n}
-                  onChange={(e) => this.handleNChange(parseInt(e.target.value, 10) || 2)}
+                  onChange={(e) => this.handleNChange(e.target.value,)}
                   className="w-full px-3 py-2 border border-gray-300 rounded"
                 />
               </div>
@@ -260,7 +258,7 @@ class Multipleregres extends React.Component {
           </div>
           <div>
             <div className="bg-white rounded-lg shadow-md p-4 overflow-x-auto">
-              <div style={{display: 'grid', gridTemplateColumns: `auto repeat(${m}, 1fr) 1fr`, gap: '1rem'}} className="mb-2 font-medium">
+              <div style={{display: 'grid', gridTemplateColumns: `auto repeat(${m}, 1fr) 1fr`, gap: '1rem'}} className="mb-2 font-medium ">
                 <div className="text-center">#</div>
                 {Array.from({ length: m }, (_, i) => (
                   <div key={i} className="text-center">X<sub>{i + 1}</sub></div>
@@ -275,6 +273,7 @@ class Multipleregres extends React.Component {
                      <input
                         key={j}
                         type="number"
+                        placeholder={`x${j+1}${i+1}`}
                         value={(x[i] && x[i][j]) || ''}
                         onChange={(e) => this.handleXChange(i, j, e.target.value)}
                         className="px-3 py-2 border border-gray-300 rounded text-center"
@@ -282,7 +281,8 @@ class Multipleregres extends React.Component {
                   ))}
                   <input
                     type="number"
-                    value={fx[i] || ''}
+                    value={fx[i]}
+                    placeholder={`f(x${i+1})`}
                     onChange={(e) => this.handleFxChange(i, e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded text-center"
                   />

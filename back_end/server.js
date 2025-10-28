@@ -18,7 +18,6 @@ app.get("/test", (req, res) => {
 // routes
 app.use("/root",roots);
 
-// 404
 app.use((req, res) => {
   res.status(404).json({ ok: false, message: "Not found" });
 });

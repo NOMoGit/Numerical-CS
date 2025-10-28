@@ -1,143 +1,4 @@
-// import axios from 'axios';
-// import { evaluate } from 'mathjs';
-// import React, { useEffect, useState } from 'react'
 
-// function Secant() {
-//   const [equation,setEquation] = useState("");
-//   const [x0,setx0] = useState("1");
-//   const [x1,setx1] = useState("2");
-//   const [tolerance,setTolerance] = useState("0.000001");
-//   const [error,setError] = useState("");
-//   const [result,setResult] = useState(null);
-//   const [iterations,setIterations] = useState([]);
-//   const [equationDB,setEquationDB] =useState([]);
-//   useEffect(()=>{
-//     axios.get("http://localhost:5000/root").then((response)=>{
-//       setEquationDB(response.data.results);
-//     })
-//     .catch((error)=>{
-//       console.log("Axios Error");
-//     })
-//   },[]); 
-//   const Calculate = () =>{
-//     setIterations([]);
-//     try {
-//       const variablematch = equation.match(/[a-zA-Z]+/g);
-//       const variable = variablematch ? variablematch[variablematch.length-1] : "x";
-//       let x0cal = parseFloat(x0);
-//       let x1cal = parseFloat(x1);
-//       let tol = parseFloat(tolerance);
-//       let x2 = 0;
-//       let err = 0;
-//       let iter = 0;
-//       const stepHistory = [];
-//       do {
-//         let fx0 = evaluate(equation,{[variable]:x0cal});
-//         let fx1 = evaluate(equation,{[variable]:x1cal});
-//         if((fx1-fx0) == 0){
-//           alert("หาร0");
-//           return;
-//         }
-//         x2 = x1cal - (fx1*(x1cal - x0cal))/(fx1-fx0);
-//         err = Math.abs((x2-x1cal)/x2);
-//         stepHistory.push({
-//           x0: x0cal,
-//           x1: x1cal,
-//           iteration:iter,
-//           fx0,fx1,
-//           error:err,
-//         })
-//         x0cal = x1cal;
-//         x1cal = x2;
-
-//       } while (err >= tol);
-//       setIterations(stepHistory);
-//       setResult(x2);
-//     } catch (error) {
-//       alert("สมการผิด");
-//     }
-//   }
-//   return (
-//     <div className="max-w-8xl mx-auto mt-8 p-8 rounded-lg bg-white">
-//       <h1 className="text-center font-bold text-4xl mb-8 text-blue-800">
-//         Secant Method
-//       </h1>
-//       <div className="grid md:grid-cols-2 gap-4">
-//         <div className="space-y-4">
-//           <div>
-//             <label className="block mb-2 font-medium text-gray-700">
-//               เลือกสมการจาก Database
-//             </label>
-//             <select 
-//               onChange={(e) => setEquation(e.target.value)}
-//               className='w-full border rounded-lg p-3 mb-2'
-//             >
-//               <option value="">-- เลือกสมการ --</option>
-//               {equationDB.map((eq) => (
-//                 <option key={eq.ID} value={eq.Equeation}>
-//                   {eq.ID}:{eq.Equeation}
-//                 </option>
-//               ))}
-//             </select>
-//             <p>กรอกสมการ</p>
-//             <input 
-//               type="text" 
-//               value={equation}
-//               placeholder='เช่น x*x - 4'
-//               onChange={(e) => setEquation(e.target.value)}
-//               className='border rounded-lg p-3 my-2'
-//             />
-//           </div>
-//           <div >
-//             <p>x0</p>
-//             <input 
-//               type="number" 
-//               placeholder='x0'
-//               className='rounded-lg border p-3 my-2'
-//               onChange={(e) => setx0(e.target.value)}
-//             />
-//           </div>
-//           <div>
-//             <p>x1</p>
-//             <input 
-//               type="number" 
-//               placeholder='x1'
-//               className='rounded-lg border p-3 my-2'
-//               onChange={(e) => setx1(e.target.value)}
-//             />
-//           </div>
-//           <div>
-//             <p>totolence</p>
-//             <input 
-//               type="number" 
-//               placeholder='0.000001'
-//               className='rounded-lg border p-3 my-2'
-//               onChange={(e) => setTolerance(e.target.value)}
-//             />
-//           </div>
-//           <div>
-//             <button
-//               onClick={Calculate}
-//               className='rounded-lg border p-3 my-2'
-//             >
-//               <h1 className='text-4xl pb-3'
-//               >
-//                 Calculate
-//               </h1>
-//             </button>
-//           </div>
-//           {result !== null &&(
-//             <div>
-//               {result}
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Secant
 import React from "react";
 import axios from "axios";
 import { evaluate } from "mathjs";
@@ -263,7 +124,7 @@ class Secant extends React.Component {
       alert("สมการผิด");
     }
   };
-
+  
   render() {
     const { equation, x0, x1, tolerance, result, equationDB } = this.state;
 
@@ -276,7 +137,9 @@ class Secant extends React.Component {
               Secant Method
             </h1>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div 
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+          >
             {/* Left Panel - Database */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">

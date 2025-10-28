@@ -7,7 +7,6 @@ import Graphical from './root/graphical'
 import Bisection from './root/bisection'
 import False from "./root/false";
 import Onepoint from "./root/onepoint";
-import Taylor from "./root/taylor";
 import Newton from "./root/newton";
 import Secant from "./root/secant";
 import Carmer from "./linear/carmer";
@@ -23,6 +22,12 @@ import Comsimpson from "./integrat_different/comsimpson";
 import Different from "./integrat_different/different";
 import Multipleregres from "./least_sqr/multipleregres";
 import Linearregres from "./least_sqr/linearregres";
+import Lagrange from "./interpolation/lagrange";
+import Spline from "./interpolation/spline";
+import Newtondivide from "./interpolation/newtondivide";
+import Jacobi from "./linear/jacobi";
+import Gaussseidel from "./linear/gaussseidel";
+import Conjugrade from "./linear/conjugrade";
 
 function App() {
   return (
@@ -38,7 +43,6 @@ function App() {
         <Route path="/bisection" element={<Bisection />} />
         <Route path="/false" element={<False />} />
         <Route path="/onepoint" element={<Onepoint />} />
-        {/* <Route path="/taylor" element={<Taylor />} /> */}
         <Route path="/newton" element={<Newton />} />
         <Route path="/secant" element={<Secant />} />
         <Route path="/carmer" element={<Carmer />}/>
@@ -54,6 +58,12 @@ function App() {
         <Route path="/different" element={<Different/>}/>
         <Route path="/multipleregres" element={<Multipleregres/>}/>
         <Route path="/linearregres" element={<Linearregres/>}/>
+        <Route path="/lagrange" element={<Lagrange/>}/>
+        <Route path="/spline" element={<Spline/>}/>
+        <Route path="/newtondivide" element={<Newtondivide/>}/>
+        <Route path="/jacobi" element={<Jacobi/>}/>
+        <Route path="/gaussseidel" element={<Gaussseidel/>}/>
+        <Route path="/conjugrade" element={<Conjugrade/>}/>
       </Routes>
       
     </Router>

@@ -129,9 +129,9 @@ class Comtrapezoidal extends React.Component{
     
             return (
                 <MathJaxContext>
-                    <div className="min-h-screen bg-gray-50 py-25 px-4">
+                    <div className="min-h-screen bg-gray-50 py-12 px-4">
                         <div className="max-w-4xl mx-auto">
-                            <div className="text-center mb-25">
+                            <div className="text-center mb-12">
                                 <h1 className="text-5xl font-bold text-blue-800 mb-3">
                                     Composite Trapezoidal's Rule
                                 </h1>

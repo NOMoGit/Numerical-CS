@@ -1,127 +1,3 @@
-// import React from 'react'
-// import { MathJax,MathJaxContext } from "better-react-mathjax";
-// import { row } from 'mathjs';
-
-// class linearregres extends React.Component{
-//     constructor(props){
-//         super(props);
-//         this.state = {
-//             fx:[],
-//             x: [],
-//             arrayx: null,
-//             xfind: "",
-//             result: null,
-//             Arrcal: null,
-//             resultarrx: null,
-//             A: 2
-//         };
-//     }
-//     Gausselimination = (matcal,resultmat) =>{
-//         const {n} = this.state;
-//         const size = n ;
-//         for(let i = 0 ; i < size ; i++){
-//         let term = matcal[i][i];
-//         for(let j = 0 ; j <= size ; j++){
-//             matcal[i][j] /= term;
-//         }
-//         for(let k = i+1; k < size ; k++){
-//             let forward = matcal[k][i];
-//             for(let j = 0 ; j <= size ; j++){
-//             matcal[k][j] -= forward*matcal[i][j];
-//             }
-//         }
-//         }
-//         for(let i = size-1; i>= 0; i--){
-//         resultmat[i] = matcal[i][size];
-//         for(let j = i+1 ; j < size ; j++){
-//             resultmat[i] -= matcal[i][j]*resultmat[j];
-//         }
-//         }
-//     }
-//     calculate = () => {
-//         try {
-//             const {fx , x , xfind , arrayx , Arrcal} = this.state;
-//             if(!x || !fx || !xfind){
-//                 alert("กรุณากรอก Value, f(x) และ X value ให้ครบก่อนคำนวณ");
-//                 return;
-//             }
-//             const N = x.length;
-//             if(x.length !== fx.length){
-//                 alert("กรอกค่า X และ f(X) ให้จำนวนเท่ากัน");
-//                 return;
-//             }
-//             const arrx = Array.from(Array(N),(_i) => [x[i],fx[i]]);
-//             this.setState({
-//                 arrayx:arrx
-//             });
-//             const X = Array.from(Array(N),()=>Array(A));
-//             const Y = Array(N);
-//             for(let i = 0 ; i < N ; i++){
-//                 X[i][0] = 1;
-//                 X[i][1] = arrx[i][0];
-//                 Y[i] = arrx[i][1];
-//             }
-//             let sumx = Array(A).fill(0);
-//             let sumy = 0;
-//             let sumxx = Array.from(Array(A),()=>Array(A).fill(0));
-//             let sumxy = Array(A).fill(0);
-
-//             for(let i = 0 ; i < N ; i++){
-//                 sumy += Y[i];
-//                 for(let j = 0 ; j < A ; j++){
-//                     sumx[j] += X[i][j];
-//                     sumxy[j] += X[i][j]*Y[i];
-//                     for(let k = 0 ; k < A ; k++){
-//                         sumxx[j][k] += X[i][j] * X[i][k];
-//                     }
-//                 }
-//             }
-//             let arrcal = Array.from(Array(A),()=>Array(A+1).fill(0));
-//             for(let i = 0 ; i < A ; i++){
-//                 for(let j = 0 ; j < A ; j++){
-//                     if( i == 0 && j == 0){
-//                         arrcal[i][j] = N ;
-//                     }
-//                     else if(i == 0 && j > 0){
-//                         arrcal[i][j] = sumx[j];
-//                     }else if(j >= i){
-//                         arrcal[i][j] = sumxx[i][j];
-//                     }
-//                     else{
-//                         arrcal[i][j] = arrcal[j][i];
-//                     }
-//                 }
-//                 if(i == 0){
-//                     arrcal[i][A] = sumy;
-//                 }
-//                 else{
-//                     arrcal[i][A] = sumxy[i];
-//                 }
-//             }
-//             this.state({Arrcal:arrcal});
-//             let arrcal2 = arrcal.map(row => [...row]);
-//             const resultmat = Array(A);
-//             this.Gausselimination(arrcal2,resultmat);
-//             this.state({resultarrx:resultmat});
-//             const xcal = parseFloat(xfind);
-//             const fxcal = resultmat[0] + resultmat[1]*xcal;
-//             this.state({result:fxcal});
-//         } catch (error) {
-//             alert("กรอกค่าผิด");
-//         }
-//     }
-//     render() {
-//       return (
-//         <div>
-          
-//         </div>
-//       )
-//     }
-// }
-
-// export default linearregres
-
-
 import React from 'react';
 import Plot from 'react-plotly.js';
 
@@ -129,7 +5,7 @@ class Linearregres extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      n: 3,
+      n: 9,
       m: 1,
       xfind: "65",
       x: [],
@@ -139,7 +15,20 @@ class Linearregres extends React.Component {
       plotData: []
     };
   }
+  componentDidMount() {
+    const { n, m } = this.state;
+    
+    const initialX = Array.from({ length: n }, () => Array(m).fill(''));
+    const initialFx = Array(n).fill('');
+    const initialXfind = Array(m).fill('');
 
+ 
+   this.setState({
+     x: initialX,
+     fx: initialFx,
+     xfind: initialXfind
+   });
+  }
   Gausselimination = (matcal, resultmat) => {
     const { m } = this.state;
     const size = m + 1;
@@ -328,7 +217,7 @@ class Linearregres extends React.Component {
 
   handleXChange = (index, value) => {
     const newX = [...this.state.x];
-    newX[index] = parseFloat(value) || 0;
+    newX[index] = parseFloat(value) ;
     this.setState({ x: newX });
   }
 
@@ -347,8 +236,8 @@ class Linearregres extends React.Component {
           <h1 className="text-5xl font-bold bg-gradient-to-r text-blue-800 bg-clip-text mb-3 text-center mt-12 mb-20">
                             Simple Linear Regression
                         </h1>
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div className="flex justify-between  mb-6  ">
+          <div className="bg-green rounded-lg shadow-md p-6 mb-6">
+            <div className="flex gap-6 w-full mb-6 full">
               <div >
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Number of points 
@@ -359,7 +248,7 @@ class Linearregres extends React.Component {
                     min={1}
                     value={n}
                     onChange={(e) => this.setState({ n: parseInt(e.target.value, 10) || 0 })}
-                    className="w-20 px-3 py-2 border border-gray-300 rounded text-center"
+                    className="px-3 py-2 border border-gray-300 rounded "
                   />
                 </div>
               </div>
@@ -374,7 +263,7 @@ class Linearregres extends React.Component {
                     min={1}
                     value={m}
                     onChange={(e) => this.setState({ m: parseInt(e.target.value, 10) || 0 })}
-                    className="w-20 px-3 py-2 border border-gray-300 rounded text-center"
+                    className=" px-3 py-2 border border-gray-300 rounded "
                   />
                 </div>
               </div>
@@ -417,13 +306,15 @@ class Linearregres extends React.Component {
                   <div className="text-center font-medium">{i + 1}.</div>
                   <input
                     type="number"
-                    value={x[i] || ''}
+                    value={x[i] }
+                    placeholder={`x${i+1}`}
                     onChange={(e) => this.handleXChange(i, e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded text-center"
                   />
                   <input
                     type="number"
-                    value={fx[i] || ''}
+                    value={fx[i] }
+                    placeholder={`f(x${i+1})`}
                     onChange={(e) => this.handleFxChange(i, e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded text-center"
                   />

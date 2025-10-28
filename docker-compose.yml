@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
   mysql:
     image: mysql:8
     container_name: numer_mysql
@@ -13,10 +14,17 @@ services:
       - "3307:3306"
     volumes:
       - ./mysql_data:/var/lib/mysql
-      - ./mysql_init:/docker-entrypoint-initdb.d  # (ออปชัน) seed .sql ครั้งแรก
+      - ./mysql_init:/docker-entrypoint-initdb.d
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  phpmyadmin:  # (ออปชัน) UI จัดการ DB
+  phpmyadmin:
     image: phpmyadmin:latest
+    container_name: phpmyadmin-1
     restart: always
     depends_on: [mysql]
     environment:
@@ -24,3 +32,40 @@ services:
       PMA_PORT: 3306
     ports:
       - "8081:80"
+  backend:
+    build:
+      context: ./back_end
+      dockerfile: Dockerfile
+    container_name: numer-backend
+    restart: on-failure 
+    env_file:
+      - ./back_end/.ENV
+    environment:
+      PORT: "5000"
+      NODE_ENV: production
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./back_end:/app
+      - /app/node_modules
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./front_end
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:5000"
+    container_name: numer-web
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: "http://localhost:5000"
+    volumes:
+      - ./front_end:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev", "--", "--host"]
+    depends_on:
+      - backend

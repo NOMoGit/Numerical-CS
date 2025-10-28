@@ -142,7 +142,9 @@ class Newton extends React.Component{
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div 
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+          >
             {/* Left Panel - Database */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">

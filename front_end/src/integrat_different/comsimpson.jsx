@@ -4,6 +4,7 @@ import nerdamer from 'nerdamer/all';
 import Plot from "react-plotly.js";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { evaluate } from "mathjs";
+import axios from "axios";
 
 class Comsimpson extends React.Component {
     constructor(props) {
@@ -145,18 +146,18 @@ class Comsimpson extends React.Component {
 
         return (
             <MathJaxContext>
-                <div className="min-h-screen bg-gray-50 py-20 px-4">
+                <div className="min-h-screen bg-gray-50 py-12 px-4">
                     <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-20">
+                        <div className="text-center mb-12">
                             <h1 className="text-5xl font-bold text-blue-800 mb-3">
                                 Composite Simpson's Rule
                             </h1>
                         </div>
-                        <div className="w-full bg-white rounded-2xl shadow-lg p-8 space-y-6">
-                            <div className="mt-5 p-4 pt-10 bg-white rounded-2xl shadow-inner text-center ">
+                        {/* <div > */}
+                            <div className="my-5 p-4 pt-10 bg-white rounded-2xl shadow-inner text-center ">
                                 <MathJax className="text-3xl" dynamic>{latex}</MathJax>
                             </div>
-                        </div>
+                        {/* </div> */}
 
                         <div className="w-full bg-white rounded-2xl shadow-lg p-8 space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">

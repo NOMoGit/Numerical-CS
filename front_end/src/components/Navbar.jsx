@@ -20,7 +20,7 @@ function Navbar() {
       <div className="container mx-auto max-w-[1320px] relative h-auto p-10 flex flex-col md:flex-row md:justify-between md:h-[80px] md:items-center">
         <div>
             <Link to="/" className="text-3xl md:text-4xl font-bold text-blue-500">
-                numerical
+                Numerical Method
             </Link>
         </div>
         <ul className={`${!toggle ? 'hidden':'flex'} flex flex-col md:flex md:flex-row my-5`}>
@@ -33,11 +33,11 @@ function Navbar() {
                 Root of Equation
                 </button>
             
-                <div className='absolute top-full left-0 right-0 h-10 bg-transparent group-hover:block hidden'></div>
+                <div className='absolute top-full left-0 right-0 h-10 bg-transparent group-hover:block hidden '></div>
                 <ul className={`
                 ${openDropdown === "root" ? "block" : "hidden"} 
                 md:group-hover:block 
-                bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute
+                bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute z-50
               `}>
                     <li>
                         <Link to="/Graphical"className="block px-4 py-2 hover:bg-gray-200">
@@ -59,11 +59,6 @@ function Navbar() {
                         Onepoint Iteration
                         </Link>
                     </li>
-                    {/* <li>
-                        <Link to="/Taylor"className="block px-4 py-2 hover:bg-gray-200">
-                        Taylor
-                        </Link>
-                    </li> */}
                     <li>
                         <Link to="/Newton"className="block px-4 py-2 hover:bg-gray-200">
                         Newton
@@ -87,7 +82,7 @@ function Navbar() {
                 <ul className={`
                     ${openDropdown === "linear" ? "block" : "hidden"} 
                     md:group-hover:block 
-                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
+                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute z-50`}>
                     <li>
                         <Link to="/Carmer"className="block px-4 py-2 hover:bg-gray-200">
                         Cramer's Rule
@@ -118,6 +113,21 @@ function Navbar() {
                         Cholesky
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/Jacobi"className="block px-4 py-2 hover:bg-gray-200">
+                        Jacobi
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/Gaussseidel"className="block px-4 py-2 hover:bg-gray-200">
+                        Gauss Seidel
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/Conjugrade"className="block px-4 py-2 hover:bg-gray-200">
+                        Conjugrade
+                        </Link>
+                    </li>
                 </ul>
             </li>
             <li className="my-2 md:mx-5 relative group">
@@ -125,27 +135,27 @@ function Navbar() {
                 className="hover:text-blue-700 cursor-pointer flex justify-between w-full md:w-auto"
                 onClick={() => handleDropdown("Interpo")}
                 >
-                Interpolation &<br />Extrapolation
+                Interpolation
                 </button>
                 <div className='absolute top-full left-0 right-0 h-10 bg-transparent group-hover:block hidden'></div>
                 <ul className={`
                     ${openDropdown === "Interpo" ? "block" : "hidden"} 
                     md:group-hover:block 
-                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
+                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute z-50`}>
                     <li>
-                        <a href="#"className="block px-4 py-2 hover:bg-gray-200">
+                        <Link to="/Newtondivide"className="block px-4 py-2 hover:bg-gray-200">
                         Newton Divide Difference
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#"className="block px-4 py-2 hover:bg-gray-200">
+                        <Link to="/Lagrange"className="block px-4 py-2 hover:bg-gray-200">
                         Lagrange
-                        </a>
+                        </Link>
                     </li>
                     <li >
-                        <a  href="#"className="block px-4 py-2 hover:bg-gray-200">
+                        <Link to="/Spline"className="block px-4 py-2 hover:bg-gray-200">
                         Spline
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </li>
@@ -154,13 +164,13 @@ function Navbar() {
                 className="hover:text-blue-700 cursor-pointer flex justify-between w-full md:w-auto"
                 onClick={() => handleDropdown("Least")}
                 >
-                Least Squares<br />Regression
+                Extrapolation
                 </button>
                 <div className='absolute top-full left-0 right-0 h-10 bg-transparent group-hover:block hidden'></div>
                 <ul className={`
                     ${openDropdown === "Least" ? "block" : "hidden"} 
                     md:group-hover:block 
-                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
+                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute z-50`}>
                     <li>
                         {/* <a href=""className="block px-4 py-2 hover:bg-gray-200">
                         Linear
@@ -186,13 +196,13 @@ function Navbar() {
                 className="hover:text-blue-700 cursor-pointer flex justify-between w-full md:w-auto"
                 onClick={() => handleDropdown("Integra")}
                 >
-                Integration &<br />Differentiation
+                Integration 
                 </button>
                 <div className='absolute top-full left-0 right-0 h-10 bg-transparent group-hover:block hidden'></div>
                 <ul className={`
                     ${openDropdown === "Integra" ? "block" : "hidden"} 
                     md:group-hover:block 
-                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute`}>
+                    bg-white shadow-lg rounded-lg mt-2 p-2 md:absolute z-50`}>
                     <li>
                         <Link to="/Trapezoidal"className="block px-4 py-2 hover:bg-gray-200">
                         Trapezoidal Rule

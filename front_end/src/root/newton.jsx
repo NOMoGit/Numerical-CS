@@ -17,67 +17,67 @@ class Newton extends React.Component{
     };
   }
 
-  componentDidMount(){
-    axios.get("http://localhost:5000/root")
-      .then((response) => {
-        this.setState({equationDB: response.data.results});
-      })
-      .catch(()=>{
-        console.log("Axios Error");
-      });
-  }
-
-  handleDelete = (id) => {
-    if (!window.confirm("คุณแน่ใจหรือไม่ที่จะลบสมการนี้?")) return;
-
-    axios.delete(`http://localhost:5000/root/${id}`)
-      .then((res) => {
-        alert(res.data.message);
-        
-        this.setState((prevState) => ({
-          equationDB: prevState.equationDB.filter(eq => eq.ID !== id)
-        }));
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("ลบไม่สำเร็จ");
-      });
-  };
-
-  handleUpdate = (id, oldEquation) => {
-    const newEquation = prompt("ใส่สมการใหม่:", oldEquation);
-    if (!newEquation) return;
-
-    axios.put(`http://localhost:5000/root/${id}`, { equation: newEquation })
-      .then((res) => {
-        alert(res.data.message);
-        this.setState((prevState) => ({
-          equationDB: prevState.equationDB.map(eq =>
-            eq.ID === id ? { ...eq, Equeation: newEquation } : eq
-          )
-        }));
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("แก้ไขไม่สำเร็จ");
-      });
-  };
-
-  equationExists = (equations, equation) => {
-    return equations.some(eq => eq.Equeation === equation);
-  };
-
-  saveEquation = async (equation) => {
-    try {
-      const response = await axios.post("http://localhost:5000/root", { 
-        equation: equation 
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error saving equation:", error);
-      throw error;
+    componentDidMount(){
+        axios.get("https://api-web-oop-deploy-production.up.railway.app/roe")
+        .then((response) => {
+            this.setState({equationDB: response.data.results});
+        })
+        .catch(() =>{
+            console.log("Axios Error");
+        });
     }
-  };
+    handleDelete = async(id) => {
+        if (!window.confirm("คุณแน่ใจหรือไม่ที่จะลบสมการนี้?")) return;
+
+        try {
+            
+            const res = await axios.delete(`https://api-web-oop-deploy-production.up.railway.app/roe/${id}`);
+            
+            alert(res.data.message || "ลบสำเร็จ"); 
+            
+            this.setState((prevState) => ({
+                equationDB: prevState.equationDB.filter(eq => eq.id !== id)
+            }));
+
+        } catch (err) {
+            console.error(err);
+            
+            const errMsg = err?.response?.data?.message || "ลบไม่สำเร็จ";
+            alert(errMsg);
+        }
+    };
+    handleUpdate = (id,oldEquation) => {
+        const newEquation = prompt("ใส่สมการใหม่:",oldEquation);
+        if (!newEquation) return;
+        axios.put(`https://api-web-oop-deploy-production.up.railway.app/roe/${id}`, { equation: newEquation })
+        .then((res) => {
+            alert("แก้ไขสำเร็จ");
+            this.setState((prevState) =>({
+                equationDB: prevState.equationDB.map(eq =>
+                    eq.id === id ? { ...eq, equation: newEquation } : eq
+                )
+            }))
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("แก้ไขไม่สำเร็จ");
+        });
+    };
+    equationExists = (equations, equation) => {
+        return equations.some(eq => eq.equation === equation);
+    };
+
+    saveEquation = async (equation) => {
+        try {
+            const response = await axios.post("https://api-web-oop-deploy-production.up.railway.app/roe", { 
+                equation: equation 
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error saving equation:", error);
+            throw error;
+        }
+    };
 
   calculate = async () => {
     try {
@@ -112,7 +112,7 @@ class Newton extends React.Component{
       
       this.setState({result:x1,iteration:history});
 
-      if (!this.equationExists(equationDB, equation)) {
+      if (!this.equationExists(equationDB,equation)) {
         const savedData = await this.saveEquation(equation);
         console.log("บันทึกสมการสำเร็จ:", savedData);
         
@@ -157,19 +157,19 @@ class Newton extends React.Component{
                     <p className="text-gray-400 text-center py-8">ไม่มีสมการในระบบ</p>
                   ) : (
                     equationDB.map(eq => (
-                      <div key={eq.ID} className="bg-gray-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
+                      <div key={eq.id} className="bg-gray-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
-                          <code className="text-sm font-mono text-gray-800 font-semibold">{eq.Equeation}</code>
+                          <code className="text-sm font-mono text-gray-800 font-semibold">{eq.equation}</code>
                           <div className="flex gap-1">
                             <button
-                              onClick={() => this.handleUpdate(eq.ID, eq.Equeation)}
+                              onClick={() => this.handleUpdate(eq.id, eq.equation)}
                               className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
                               
                             >
                               แก้ไข
                             </button>
                             <button
-                              onClick={() => this.handleDelete(eq.ID)}
+                              onClick={() => this.handleDelete(eq.id)}
                               className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
                               
                             >
@@ -201,8 +201,8 @@ class Newton extends React.Component{
                   >
                     <option value="">-- เลือกสมการ --</option>
                     {equationDB.map((eq) =>(
-                      <option key={eq.ID} value={eq.Equeation}>
-                        {eq.Equeation}
+                      <option key={eq.id} value={eq.equation}>
+                        {eq.equation}
                       </option>
                     ))}
                   </select>

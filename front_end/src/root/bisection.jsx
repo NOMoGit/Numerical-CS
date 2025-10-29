@@ -19,7 +19,7 @@ class Bisection extends React.Component{
         };    
     }
     componentDidMount(){
-        axios.get("http://localhost:5000/root")
+        axios.get("https://api-web-oop-deploy-production.up.railway.app/roe")
         .then((response) => {
             this.setState({equationDB: response.data.results});
         })
@@ -27,30 +27,35 @@ class Bisection extends React.Component{
             console.log("Axios Error");
         });
     }
-    handleDelete = (id) => {
+    handleDelete = async(id) => {
         if (!window.confirm("คุณแน่ใจหรือไม่ที่จะลบสมการนี้?")) return;
 
-        axios.delete(`http://localhost:5000/root/${id}`)
-            .then((res) => {
-                alert(res.data.message);
-                this.setState((prevState) => ({
-                    equationDB: prevState.equationDB.filter(eq => eq.ID !== id)
-                }));
-            })
-            .catch((err) => {
-                console.error(err);
-                alert("ลบไม่สำเร็จ");
-            });
+        try {
+            
+            const res = await axios.delete(`https://api-web-oop-deploy-production.up.railway.app/roe/${id}`);
+            
+            alert(res.data.message || "ลบสำเร็จ"); 
+            
+            this.setState((prevState) => ({
+                equationDB: prevState.equationDB.filter(eq => eq.id !== id)
+            }));
+
+        } catch (err) {
+            console.error(err);
+            
+            const errMsg = err?.response?.data?.message || "ลบไม่สำเร็จ";
+            alert(errMsg);
+        }
     };
     handleUpdate = (id,oldEquation) => {
         const newEquation = prompt("ใส่สมการใหม่:",oldEquation);
         if (!newEquation) return;
-        axios.put(`http://localhost:5000/root/${id}`, { equation: newEquation })
+        axios.put(`https://api-web-oop-deploy-production.up.railway.app/roe/${id}`, { equation: newEquation })
         .then((res) => {
-            alert(res.data.message);
+            alert("แก้ไขสำเร็จ");
             this.setState((prevState) =>({
                 equationDB: prevState.equationDB.map(eq =>
-                    eq.ID === id ? { ...eq, Equeation: newEquation } : eq
+                    eq.id === id ? { ...eq, equation: newEquation } : eq
                 )
             }))
         })
@@ -60,12 +65,12 @@ class Bisection extends React.Component{
         });
     };
     equationExists = (equations, equation) => {
-        return equations.some(eq => eq.Equeation === equation);
+        return equations.some(eq => eq.equation === equation);
     };
 
     saveEquation = async (equation) => {
         try {
-            const response = await axios.post("http://localhost:5000/root", { 
+            const response = await axios.post("https://api-web-oop-deploy-production.up.railway.app/roe", { 
                 equation: equation 
             });
             return response.data;
@@ -158,19 +163,19 @@ class Bisection extends React.Component{
                                     <p className="text-gray-400 text-center py-8">ไม่มีสมการในระบบ</p>
                                 ) : (
                                     equationDB.map(eq => (
-                                    <div key={eq.ID} className="bg-gray-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
+                                    <div key={eq.id} className="bg-gray-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200 hover:shadow-md transition-shadow">
                                         <div className="flex items-center justify-between">
-                                        <code className="text-sm font-mono text-gray-800 font-semibold">{eq.Equeation}</code>
+                                        <code className="text-sm font-mono text-gray-800 font-semibold">{eq.equation}</code>
                                         <div className="flex gap-1">
                                             <button
-                                            onClick={() => this.handleUpdate(eq.ID, eq.Equeation)}
+                                            onClick={() => this.handleUpdate(eq.id, eq.equation)}
                                             className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
                                             
                                             >
                                             แก้ไข
                                             </button>
                                             <button
-                                            onClick={() => this.handleDelete(eq.ID)}
+                                            onClick={() => this.handleDelete(eq.id)}
                                             className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
                                             
                                             >
@@ -200,8 +205,8 @@ class Bisection extends React.Component{
                                     >
                                         <option value="">-- เลือกสมการ --</option>
                                         {equationDB.map((eq) =>(
-                                        <option key={eq.ID} value={eq.Equeation}>
-                                            {eq.Equeation}
+                                        <option key={eq.ID} value={eq.equation}>
+                                            {eq.equation}
                                         </option>
                                         ))}
                                     </select>
@@ -313,393 +318,3 @@ class Bisection extends React.Component{
     }
 }
 export default Bisection;
-// Class สำหรับจัดการสมการคณิตศาสตร์
-// class MathEquation {
-//     constructor(equationString) {
-//         this.equationString = equationString;
-//         this.func = null;
-//     }
-
-//     parse() {
-//         try {
-//             const processedEq = this.equationString.replace(/\^/g, '**');
-//             this.func = new Function("x", `with(Math){ return ${processedEq}; }`);
-//             return true;
-//         } catch (e) {
-//             throw new Error("สมการไม่ถูกต้อง");
-//         }
-//     }
-
-//     evaluate(x) {
-//         if (!this.func) {
-//             throw new Error("กรุณา parse สมการก่อน");
-//         }
-//         return this.func(x);
-//     }
-
-//     getString() {
-//         return this.equationString;
-//     }
-// }
-// // Class สำหรับจัดการข้อมูลแต่ละรอบการคำนวณ
-// class IterationStep {
-//     constructor(iteration, a, b, mid, fmid, error) {
-//         this.iteration = iteration;
-//         this.a = a;
-//         this.b = b;
-//         this.mid = mid;
-//         this.fmid = fmid;
-//         this.error = error;
-//     }
-
-//     toTableFormat() {
-//         return {
-//             iteration: this.iteration,
-//             x: this.mid,
-//             y: this.fmid,
-//             error: this.error
-//         };
-//     }
-
-//     toChartFormat() {
-//         return {
-//             iteration: this.iteration,
-//             x: this.error
-//         };
-//     }
-// }
-// // Class สำหรับการคำนวณด้วย Bisection Method
-// class BisectionCalculator {
-//     constructor(equation, a, b, tolerance) {
-//         this.equation = new MathEquation(equation);
-//         this.a = parseFloat(a);
-//         this.b = parseFloat(b);
-//         this.tolerance = parseFloat(tolerance);
-//         this.steps = [];
-//         this.result = null;
-//         this.iterations = 0;
-//     }
-
-//     validate() {
-//         if (isNaN(this.a) || isNaN(this.b) || isNaN(this.tolerance)) {
-//             throw new Error("กรุณากรอกค่าตัวเลขที่ถูกต้อง");
-//         }
-
-//         this.equation.parse();
-
-//         const fa = this.equation.evaluate(this.a);
-//         const fb = this.equation.evaluate(this.b);
-
-//         if (fa * fb > 0) {
-//             throw new Error('ไม่มีคำตอบในช่วงนี้');
-//         }
-//     }
-
-//     calculate() {
-//         this.validate();
-
-//         let left = this.a;
-//         let right = this.b;
-//         let mid = (left + right) / 2;
-//         let err = 1;
-//         let iter = 0;
-
-//         do {
-//             iter++;
-
-//             const Fa = this.equation.evaluate(left);
-//             const Fb = this.equation.evaluate(right);
-//             const fmid = this.equation.evaluate(mid);
-
-//             if (Fa * fmid > 0) {
-//                 left = mid;
-//             } else {
-//                 right = mid;
-//             }
-
-//             const mido = mid;
-//             mid = (left + right) / 2;
-
-//             const step = new IterationStep(iter, left, right, mido, fmid, err);
-//             this.steps.push(step);
-
-//             err = Math.abs((mid - mido) / mid);
-//         } while (err >= this.tolerance);
-
-//         this.result = mid;
-//         this.iterations = iter;
-
-//         return {
-//             result: this.result,
-//             iterations: this.iterations,
-//             steps: this.steps
-//         };
-//     }
-
-//     getStepsForTable() {
-//         return this.steps.map(step => step.toTableFormat());
-//     }
-
-//     getStepsForChart() {
-//         return this.steps.map(step => step.toChartFormat());
-//     }
-// }
-
-// // Class สำหรับจัดการ API
-// class EquationAPI {
-//     constructor(baseURL = "http://localhost:5000") {
-//         this.baseURL = baseURL;
-//     }
-
-//     async fetchEquations() {
-//         try {
-//             const response = await axios.get(`${this.baseURL}/root`);
-//             return response.data.results || [];
-//         } catch (error) {
-//             console.error("Axios error:", error);
-//             throw error;
-//         }
-//     }
-
-//     async saveEquation(equation) {
-//         try {
-//             const response = await axios.post(`${this.baseURL}/root`, { 
-//                 equation: equation 
-//             });
-//             return response.data;
-//         } catch (error) {
-//             console.error("Error saving equation:", error);
-//             throw error;
-//         }
-//     }
-
-//     equationExists(equations, targetEquation) {
-//         return equations.some(eq => eq.Equeation === targetEquation);
-//     }
-// }
-
-// // React Component
-
-//     const [equation, setEquation] = useState("");
-//     const [a, setA] = useState("1");
-//     const [b, setB] = useState("10");
-//     const [tolerance, setTolerance] = useState("0.000001");
-//     const [error, setError] = useState("");
-//     const [result, setResult] = useState(null);
-//     const [iterations, setIterations] = useState(0);
-//     const [steps, setSteps] = useState([]);
-//     const [equations, setEquations] = useState([]);
-//     const [loading, setLoading] = useState(true);
-
-//     const api = new EquationAPI();
-
-//     useEffect(() => {
-//         api.fetchEquations()
-//             .then((data) => {
-//                 setEquations(data);
-//                 setLoading(false);
-//             })
-//             .catch(() => {
-//                 setLoading(false);
-//             });
-//     }, []);
-
-//     if (loading) return <p>Loading...</p>;
-
-//     const handleCalculate = async () => {
-//         setSteps([]);
-        
-//         if (!equation.trim()) {
-//             setError("กรุณากรอกสมการ");
-//             return;
-//         }
-        
-//         setError("");
-
-//         try {
-//             const calculator = new BisectionCalculator(equation, a, b, tolerance);
-//             const calculationResult = calculator.calculate();
-
-//             setSteps(calculator.steps);
-//             setResult(calculationResult.result);
-//             setIterations(calculationResult.iterations);
-
-//             // บันทึกสมการใหม่ลง Database
-//             if (!api.equationExists(equations, equation)) {
-//                 const savedData = await api.saveEquation(equation);
-//                 console.log("บันทึกสมการสำเร็จ:", savedData);
-                
-//                 setEquations([...equations, { 
-//                     ID: savedData.id, 
-//                     Equeation: equation 
-//                 }]);
-//             } else {
-//                 console.log("สมการนี้มีอยู่ใน database แล้ว");
-//             }
-//         } catch (e) {
-//             setError(e.message || "เกิดข้อผิดพลาดในการคำนวณ");
-//         }
-//     };
-
-//     return (
-//         <div className="max-w-8xl mx-auto mt-8 p-8 rounded-lg bg-white">
-//             <h1 className="text-center font-bold text-4xl mb-8 text-blue-800">
-//                 Bisection Method Calculator
-//             </h1>
-
-//             <div className="grid md:grid-cols-2 gap-4">
-//                 {/* Input */}
-//                 <div className="space-y-4">
-//                     {/* Dropdown สำหรับเลือกสมการจาก Database */}
-//                     <div>
-//                         <label className="block mb-2 font-medium text-gray-700">
-//                             เลือกสมการจาก Database
-//                         </label>
-//                         <select 
-//                             onChange={(e) => setEquation(e.target.value)}
-//                             className="w-full border rounded-lg p-3 mb-2"
-//                         >
-//                             <option value="">-- เลือกสมการ --</option>
-//                             {equations.map((eq) => (
-//                                 <option key={eq.ID} value={eq.Equeation}>
-//                                     {/* {eq.ID}: {eq.Equeation} */}
-//                                     {eq.Equeation}
-//                                 </option>
-//                             ))}
-//                         </select>
-//                         <label className="block mb-2 font-medium text-gray-700">
-//                             แก้ไขสมการใน Database
-//                         </label>
-//                         <select 
-//                             onChange={(e) => setEquation(e.target.value)}
-//                             className="w-full border rounded-lg p-3 mb-2"
-//                         >
-//                             <option value="">-- เลือกสมการ --</option>
-//                             {equations.map((eq) => (
-//                                 <option key={eq.ID} value={eq.Equeation}>
-//                                     {/* {eq.ID}: {eq.Equeation} */}
-//                                     {eq.Equeation}
-//                                 </option>
-//                             ))}
-//                         </select>
-//                     </div>
-
-//                     <div>
-//                         <label className="block mb-2 font-medium text-gray-700">
-//                             สมการ f(x) = 0 
-//                         </label>
-//                         <input 
-//                             type="text"
-//                             value={equation}
-//                             onChange={(e) => setEquation(e.target.value)}
-//                             placeholder="เช่น x*x - 4, sin(x) - 0.5, exp(x) - 2" 
-//                             className='w-full border rounded-lg p-3 font-mono'
-//                         />
-//                         <p className="text-xs text-gray-500 mt-1">
-//                             ใช้: sin, cos, tan, exp, log, sqrt, abs, pow(x,n) หรือ x**n
-//                         </p>
-//                     </div>
-//                 </div>
-
-//                 <div>
-//                     <div className="grid md:grid-cols-3 gap-2">
-//                         <div>
-//                             <label className="block mb-2 pl-3 font-medium text-gray-700">
-//                                 ค่า a (ซ้าย)
-//                             </label>
-//                             <input 
-//                                 type="number"
-//                                 placeholder="a"
-//                                 step="any"
-//                                 value={a}
-//                                 onChange={(e) => setA(e.target.value)}
-//                                 className='w-full border rounded-lg p-3 font-mono'
-//                             />
-//                         </div>
-//                         <div>
-//                             <label className="block mb-2 pl-3 font-medium text-gray-700">
-//                                 ค่า b (ขวา)
-//                             </label>
-//                             <input 
-//                                 type="number"
-//                                 placeholder="b" 
-//                                 step="any"
-//                                 value={b}
-//                                 onChange={(e) => setB(e.target.value)}
-//                                 className='w-full border rounded-lg p-3 font-mono'
-//                             />
-//                         </div>
-//                         <div>
-//                             <label className="block mb-2 pl-3 font-medium text-gray-700">
-//                                 Tolerance
-//                             </label>
-//                             <input 
-//                                 type="number"
-//                                 placeholder="0.000001"
-//                                 step="any"
-//                                 value={tolerance}
-//                                 onChange={(e) => setTolerance(e.target.value)} 
-//                                 className='w-full border rounded-lg p-3 font-mono'
-//                             />
-//                         </div>
-//                     </div>
-//                 </div>
-
-//                 {/* Error and Result Display */}
-//                 <div className='space-y-4 font-mono'>
-//                     {error && (
-//                         <div>
-//                             <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-//                                 <div className="text-red-600 font-medium">
-//                                     ข้อผิดพลาด
-//                                 </div>
-//                                 <pre className="text-red-700 text-sm mt-1 whitespace-pre-wrap">
-//                                     {error}
-//                                 </pre>
-//                             </div>
-//                         </div>
-//                     )}
-//                     {result !== null && !error && (
-//                         <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-//                             <div className="text-green-800 font-bold text-xl text-center">
-//                                 ค่าประมาณ
-//                             </div>
-//                             <div className="text-center text-2xl font-mono bg-white p-3 rounded mt-2 border">
-//                                 x ≈ {result.toFixed(8)}
-//                             </div>
-//                             <div className="text-center text-sm text-green-700 mt-2">
-//                                 จำนวนรอบ: {iterations} รอบ
-//                             </div>
-//                         </div>
-//                     )}
-//                 </div>
-
-//                 {/* Calculate Button */}
-//                 <div>
-//                     <div className="flex items-end">
-//                         <button 
-//                             onClick={handleCalculate}
-//                             className='w-full p-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200'
-//                         >
-//                             <h1 className='text-4xl pb-3'>calculate</h1>
-//                         </button>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* Steps Table */}
-//             {steps.length > 0 && (
-//                 <Table steps={steps.map((s) => s.toTableFormat())}/>
-//             )}
-                
-//             {/* Chart */}
-//             {steps.length > 0 && (
-//                 <Chart
-//                     data={steps.map((s) => s.toChartFormat())}
-//                 />
-//             )}
-//         </div>
-//     );
-// }
-
-// export default Bisection;
